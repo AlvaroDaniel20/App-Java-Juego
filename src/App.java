@@ -205,6 +205,22 @@ class Player extends Character {
         System.out.println(this.name + " ahora tiene " + this.defense + " puntos de defensa.");
     }
 
+    // Transformacion  || Terminar de ajustar esta funcion
+    public void superGuerrero(int amount) {
+        this.attack += attack * 0.25;
+        this.defense += attack * 0.20;
+        System.out.println(this.name + " se ha transformado en Super Guerrero");
+    }
+
+    public boolean isSuperGuerreroAvailable() {
+        if (this.turns >= 5) {
+            Random random = new Random();
+            return random.nextDouble() < 0.4;
+        }
+        return false;
+    }
+
+
     // Graba las acciones del jugador
     private void recordAction(String action) {
         if (actionHistory.size() >= 3) {
@@ -389,6 +405,11 @@ abstract class BattleSystem {
             }
 
             System.out.println("3. Defensa");
+
+            if (player.isSuperGuerreroAvailable()) {
+                System.out.println("4. Super Guerrero");
+            }
+
             System.out.println("Elige tu acción:");
             int action = scanner.nextInt();
             System.out.println();
@@ -403,6 +424,8 @@ abstract class BattleSystem {
                 case 3:
                     player.defend();
                     break;
+                case 4:
+                    player.superGuerrero(action);           // Terminar de ajustar esta funcion
                 default:
                     System.out.println("Acción no valida, pierdes el turno.");
                     break;
