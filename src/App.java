@@ -369,6 +369,7 @@ abstract class BattleSystem {
         while (player.getCurrentHp() > 0 && enemy.getCurrentHp() > 0) {
             player.incrementTurn();
 
+            System.out.println("\n------------------------------------------------");
             System.out.println("\nTu turno, " + player.getName() + ":");
 
             if (random.nextDouble() < 0.2) {
@@ -390,6 +391,7 @@ abstract class BattleSystem {
             System.out.println("3. Defensa");
             System.out.println("Elige tu acción:");
             int action = scanner.nextInt();
+            System.out.println();
 
             switch (action) {
                 case 1:
@@ -406,15 +408,16 @@ abstract class BattleSystem {
                     break;
             }
             if (enemy.getCurrentHp() <= 0) {
-                System.out.println(enemy.getName() + " ha sido derrotado. ¡Ganaste la batalla!");
+                System.out.println("--------" + enemy.getName() + " ha sido derrotado. ¡Ganaste la batalla!--------");
                 break;
             }
 
+            System.out.println("\n------------------------------------------------");
             System.out.println("\nTurno de " + enemy.getName() + ":");
             enemy.takeAction(player);
 
             if (player.getCurrentHp() <= 0 ) {
-                System.out.println(player.getName() + " ha sido derrotado. ¡Perdiste la batalla!");
+                System.out.println("--------" + player.getName() + " ha sido derrotado. ¡Perdiste la batalla!--------");
                 break;
             }
         }
