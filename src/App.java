@@ -207,8 +207,8 @@ class Player extends Character {
 
     // Transformacion  || Terminar de ajustar esta funcion
     public void superGuerrero(int amount) {
-        this.attack += attack * 0.25;
-        this.defense += attack * 0.20;
+        this.attack += this.attack * 0.25;
+        this.defense += this.attack * 0.20;
         System.out.println(this.name + " se ha transformado en Super Guerrero");
     }
 
