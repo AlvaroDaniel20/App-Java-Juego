@@ -2,6 +2,7 @@ import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Random;
 import java.util.Scanner;
+import java.util.InputMismatchException;
 
 
 public class App {
@@ -150,13 +151,17 @@ class Player extends Character {
     private static final int BASE_DEFENSE = 15;
     private static final int BASE_SPECIAL_ATTACK = 45;
     private static final int BASE_SPECIAL_DEFENSE = 30;
+    private int original_attack;
+    private int original_defense;
 
     private int turns;
     private Queue<String> actionHistory = new LinkedList<>();
-
+    
     public Player(String name) {
         super(name, BASE_HP, BASE_ATTACK, BASE_DEFENSE, BASE_SPECIAL_ATTACK, BASE_SPECIAL_DEFENSE);
         this.turns = 0;
+        this.original_attack = BASE_ATTACK;
+        this.original_defense = BASE_DEFENSE;
     }
 
     public void incrementTurn() {
@@ -206,9 +211,13 @@ class Player extends Character {
     }
 
     // Transformacion  || Terminar de ajustar esta funcion
-    public void superGuerrero(int amount) {
+    public void superGuerrero() {
         this.attack += this.attack * 0.25;
-        this.defense += this.attack * 0.20;
+        this.defense += this.defense * 0.20;
+
+        this.maxHp += this.maxHp * 0.15;
+        int healAmount = (int) (this.currentHp * 0.20);
+        this.heal(healAmount);
         System.out.println(this.name + " se ha transformado en Super Guerrero");
     }
 
@@ -237,6 +246,11 @@ class Player extends Character {
     private int calculateDamage(int attackPower, int targetDefense) {
         double attackRandom = getRandomFactor();
         return (int) Math.max(1, (attackPower * attackRandom - targetDefense * 0.5));
+    }
+
+    public void resetStats() {
+        this.attack = original_attack;
+        this.defense = original_defense;
     }
 
 }
@@ -411,26 +425,40 @@ abstract class BattleSystem {
             }
 
             System.out.println("Elige tu acción:");
-            int action = scanner.nextInt();
-            System.out.println();
+            
+            while (true) {
+                try {
+                    int action = scanner.nextInt();
+                    System.out.println();
 
-            switch (action) {
-                case 1:
-                    player.basicAttack(enemy);
-                    break;
-                case 2:
-                    player.specialAttack(enemy);
-                    break;
-                case 3:
-                    player.defend();
-                    break;
-                case 4:
-                    player.superGuerrero(action);           // Terminar de ajustar esta funcion
-                    break;
-                default:
-                    System.out.println("Acción no valida, pierdes el turno.");
-                    break;
+                    if (action >= 1 && action <= 4) {
+                        switch (action) {
+                            case 1:
+                                player.basicAttack(enemy);
+                                break;
+                            case 2:
+                                player.specialAttack(enemy);
+                                break;
+                            case 3:
+                                player.defend();
+                                break;
+                            case 4:
+                                player.superGuerrero();
+                                break;
+                                
+                        }
+                        break;
+                    } else {
+                        System.out.println("Acción no valida, pierdes el turno.");
+                    }
+
+                } catch (InputMismatchException e) {
+                    System.out.println("Entrada no valida, ingresa un numero del 1 al 4.");
+                    scanner.next();
+                }
             }
+            
+            
             if (enemy.getCurrentHp() <= 0) {
                 System.out.println("--------" + enemy.getName() + " ha sido derrotado. ¡Ganaste la batalla!--------");
                 break;
@@ -439,6 +467,8 @@ abstract class BattleSystem {
             System.out.println("\n------------------------------------------------");
             System.out.println("\nTurno de " + enemy.getName() + ":");
             enemy.takeAction(player);
+
+            player.resetStats();
 
             if (player.getCurrentHp() <= 0 ) {
                 System.out.println("--------" + player.getName() + " ha sido derrotado. ¡Perdiste la batalla!--------");
