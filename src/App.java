@@ -426,6 +426,7 @@ abstract class BattleSystem {
                     break;
                 case 4:
                     player.superGuerrero(action);           // Terminar de ajustar esta funcion
+                    break;
                 default:
                     System.out.println("Acción no valida, pierdes el turno.");
                     break;
