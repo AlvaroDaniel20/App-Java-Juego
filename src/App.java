@@ -153,6 +153,7 @@ class Player extends Character {
     private static final int BASE_SPECIAL_DEFENSE = 30;
     private int original_attack;
     private int original_defense;
+    private boolean isSuperGuerreroUsed;
 
     private int turns;
     private Queue<String> actionHistory = new LinkedList<>();
@@ -162,6 +163,7 @@ class Player extends Character {
         this.turns = 0;
         this.original_attack = BASE_ATTACK;
         this.original_defense = BASE_DEFENSE;
+        this.isSuperGuerreroUsed = false;
     }
 
     public void incrementTurn() {
@@ -212,17 +214,22 @@ class Player extends Character {
 
     // Transformacion  || Terminar de ajustar esta funcion
     public void superGuerrero() {
-        this.attack += this.attack * 0.25;
-        this.defense += this.defense * 0.20;
+        if (!isSuperGuerreroUsed) {
+            this.attack += this.attack * 0.25;
+            this.defense += this.defense * 0.20;
 
-        this.maxHp += this.maxHp * 0.15;
-        int healAmount = (int) (this.currentHp * 0.20);
-        this.heal(healAmount);
-        System.out.println(this.name + " se ha transformado en Super Guerrero");
+            this.maxHp += this.maxHp * 0.15;
+            int healAmount = (int) (this.currentHp * 0.20);
+            this.heal(healAmount);
+            System.out.println(this.name + " se ha transformado en Super Guerrero");
+
+            isSuperGuerreroUsed = true;
+        }
+        
     }
 
     public boolean isSuperGuerreroAvailable() {
-        if (this.turns >= 5) {
+        if (this.turns >= 5 && !isSuperGuerreroUsed) {
             Random random = new Random();
             return random.nextDouble() < 0.4;
         }
