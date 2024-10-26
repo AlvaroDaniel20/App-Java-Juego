@@ -11,18 +11,23 @@ El desarrollo se centra en una estructura de clases bien definida, que facilita 
 ## Clases Principales
 
 ### Class Character
+
 Character es la clase base del juego que contiene los atributos comunes de los personajes: nombre, puntos de vida, ataque, defensa, ataque especial y defensa especial. Además, se encargan métodos como recibir y aplicar daño, y curarse. Character también aplica una lógica de defensa que reduce el daño recibido basándose en la estadística de defensa del personaje y un factor aleatorio, lo que añade variabilidad a las batallas.
 
 ### Class Player
+
 Player representa al jugador y extiende Character, permitiéndole realizar acciones como el ataque básico, el ataque especial y la defensa. También lleva un registro de las últimas acciones tomadas, lo que le permite a la IA del enemigo analizar los patrones de juego. Además, el jugador puede obtener objetos aleatorios durante la batalla que mejoran sus estadísticas o recuperan puntos de vida, añadiendo un elemento estratégico a la partida.
 
 ### Class Enemy
+
 Enemy es la clase que representa al enemigo y también hereda de Character. La IA del enemigo selecciona acciones basadas en condiciones, como el estado de salud del enemigo y los patrones de ataque del jugador. Tiene capacidad para realizar ataques básicos, ataques especiales, defenderse o curarse, dependiendo de la situación, y se ajusta dinámicamente al comportamiento del jugador, ofreciendo un reto adicional en cada batalla. Además, se ha mejorado la lógica de selección de ataques especiales y defensas para minimizar errores en las acciones realizadas.
 
 ### Class Item
+
 Item representa los objetos especiales que el jugador puede encontrar durante la batalla. Estos objetos pueden aumentar el ataque, defensa o curar puntos de vida al jugador. Cada tipo de objeto tiene un efecto específico y potencia, ofreciendo una ventaja estratégica temporal.
 
 ### Class BattleSystem
+
 BattleSystem organiza la lógica del combate entre el jugador y el enemigo. Gestiona los turnos, muestra las opciones de acción para el jugador y llama a los métodos correspondientes en las clases Player y Enemy. Además, genera objetos aleatorios y controla el flujo de la batalla hasta que el jugador o el enemigo pierdan todos sus puntos de vida. Se han implementado mejoras en la lógica para asegurar que las opciones de ataque especial y defensa sean correctamente seleccionadas y ejecutadas.
 
 ## Conclusión
